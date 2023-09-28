@@ -24,11 +24,17 @@ if __name__ == "__main__":
     cmdline = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     cmdline.add_argument('--name', default="")
     cmdline.add_argument('--id', default="")
+    cmdline.add_argument('--empty', default="")
     cnt_name = "generic"
 
     # print(dck_cmd)
-    cmd_base = f"/home/tony/Documents/software/ros_docker/gui-docker --name {cnt_name} ur10dev:v1 roslaunch ur_gazebo test3.launch"
-    # cmd_base = f"/home/tony/Documents/software/ros_docker/gui-docker --name {cnt_name} ur10dev:v1 sleep infinity"
+    flags, unk_args = cmdline.parse_known_args()
+    f_id, f_name = flags.id, flags.name
+    if flags.empty != "":
+        cmd_base = f"/home/tony/Documents/software/ros_docker/gui-docker --name {cnt_name} ur10dev:v1 sleep infinity"
+    else:
+        cmd_base = f"/home/tony/Documents/software/ros_docker/gui-docker --name {cnt_name} ur10dev:v1 roslaunch ur_gazebo test3.launch"
+
     os.popen(cmd_base)
 
 
