@@ -3,12 +3,10 @@ import argparse
 from utils import filter_container
 
 
-
 if __name__ == "__main__":
-    
     cmdline = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     cmdline.add_argument('--name', default="")
-    cmdline.add_argument('--img_base', default="ur10dev")
+    cmdline.add_argument('--img_base', default="humble-dev:v1.0")
     cmdline.add_argument('--id', default="")
     flags, unk_args = cmdline.parse_known_args()
     f_id, f_name, f_img_base = flags.id, flags.name, flags.img_base

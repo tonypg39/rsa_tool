@@ -18,14 +18,15 @@ roslaunch ur10_moveit_config moveit_rviz.launch config:=true
 # - Add a motion planning component, and it automatically connects to the robot
 """
 
+gui_docker_path = "/home/pal/rosdev/"
 
 if __name__ == "__main__":
     
     cmdline = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     cmdline.add_argument('--name', default="")
     cmdline.add_argument('--id', default="")
-    cmdline.add_argument('--img_base', default="ur10dev:v1")
-    cmdline.add_argument('--empty', default="")
+    cmdline.add_argument('--img_base', default="humble-dev:v1.0")
+    # cmdline.add_argument('--empty', default="")
     cnt_name = "generic"
 
     # print(dck_cmd)
@@ -33,12 +34,14 @@ if __name__ == "__main__":
     f_id, f_name, f_img_base = flags.id, flags.name, flags.img_base
     if flags.name != "":
         cnt_name = flags.name
-    if flags.empty != "":
-        cmd_base = f"/home/tony/Documents/software/ros_docker/gui-docker --network host --name {cnt_name} -it --entrypoint /bin/bash {f_img_base}"
-    else:
-        cmd_base = f"/home/tony/Documents/software/ros_docker/gui-docker --network host --name {cnt_name} {f_img_base} roslaunch ur_gazebo test3.launch"
+    cmd_reset = "docker rm -f generic"
+    cmd_base = f"{gui_docker_path}gui-docker --network host --name {cnt_name} -it --entrypoint /bin/bash {f_img_base}"
+
+    # Bring up Gazebo empty world with an arm (Discontinued)
+    # cmd_base = f"{gui_docker_path}gui-docker --network host --name {cnt_name} {f_img_base} roslaunch ur_gazebo test3.launch"
     print(cmd_base)
     cmd_base = f'gnome-terminal -- bash -c "{cmd_base}; exec bash"'
+    os.popen(cmd_reset)
     os.popen(cmd_base)
 
 
