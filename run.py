@@ -24,17 +24,21 @@ if __name__ == "__main__":
     cmdline = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     cmdline.add_argument('--name', default="")
     cmdline.add_argument('--id', default="")
+    cmdline.add_argument('--img_base', default="ur10dev:v1")
     cmdline.add_argument('--empty', default="")
     cnt_name = "generic"
 
     # print(dck_cmd)
     flags, unk_args = cmdline.parse_known_args()
-    f_id, f_name = flags.id, flags.name
+    f_id, f_name, f_img_base = flags.id, flags.name, flags.img_base
+    if flags.name != "":
+        cnt_name = flags.name
     if flags.empty != "":
-        cmd_base = f"/home/tony/Documents/software/ros_docker/gui-docker --name {cnt_name} ur10dev:v1 sleep infinity"
+        cmd_base = f"/home/tony/Documents/software/ros_docker/gui-docker --network host --name {cnt_name} -it --entrypoint /bin/bash {f_img_base}"
     else:
-        cmd_base = f"/home/tony/Documents/software/ros_docker/gui-docker --name {cnt_name} ur10dev:v1 roslaunch ur_gazebo test3.launch"
-
+        cmd_base = f"/home/tony/Documents/software/ros_docker/gui-docker --network host --name {cnt_name} {f_img_base} roslaunch ur_gazebo test3.launch"
+    print(cmd_base)
+    cmd_base = f'gnome-terminal -- bash -c "{cmd_base}; exec bash"'
     os.popen(cmd_base)
 
 

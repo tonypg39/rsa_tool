@@ -1,9 +1,9 @@
 import docker 
 import os
 
-img_base = "ur10dev"
+# img_base = "moveit/moveit"
 
-def filter_container(c_id, c_name):
+def filter_container(img_base,c_id, c_name):
     client = docker.from_env()
     all_ctns = client.containers.list()
     sel_ctns = []
